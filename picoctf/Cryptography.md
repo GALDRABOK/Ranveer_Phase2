@@ -25,9 +25,9 @@ picoCTF{549698}
 
 ## Concepts learnt:
 
--The x86-64 instruction set
-- Assembly Instructions: mov (copies value from source to destination)
--use of "h" suffix for hexadecimal notation
+1.The x86-64 instruction set
+2.Assembly Instructions: example mov (copies value from source to destination)
+3.use of "h" suffix for hexadecimal notation
 
 ## Notes:
 
@@ -37,10 +37,10 @@ picoCTF{549698}
 
 ## Resources:
 
--IDA Pro: The primary analysis tool used to view the assembly and pseudo-code.(https://hex-rays.com/)
--Assembly basics:(https://www.youtube.com/watch?v=LdWU8JEfPhg&t=25s)
--Guide to x86-64:(https://web.stanford.edu/class/cs107/guide/x86-64.html)
--Hexadecimal Conversion:online tool used to convert the final hexadecimal value to the required decimal format.(https://www.rapidtables.com/convert/number/hex-to-decimal.html)
+1.IDA Pro: The primary analysis tool used to view the assembly and pseudo-code.(https://hex-rays.com/)
+2.Assembly basics:(https://www.youtube.com/watch?v=LdWU8JEfPhg&t=25s)
+3.Guide to x86-64:(https://web.stanford.edu/class/cs107/guide/x86-64.html)
+4.Hexadecimal Conversion:online tool used to convert the final hexadecimal value to the required decimal format.(https://www.rapidtables.com/convert/number/hex-to-decimal.html)
 
 
 ***
