@@ -38,7 +38,8 @@ picoCTF{549698}
 ## Resources:
 
 -IDA Pro: The primary analysis tool used to view the assembly and pseudo-code.(https://hex-rays.com/)
--Guide to x86-64:list of registers used(https://web.stanford.edu/class/cs107/guide/x86-64.html)
+-Assembly basics:(https://www.youtube.com/watch?v=LdWU8JEfPhg&t=25s)
+-Guide to x86-64:(https://web.stanford.edu/class/cs107/guide/x86-64.html)
 -Hexadecimal Conversion:online tool used to convert the final hexadecimal value to the required decimal format.(https://www.rapidtables.com/convert/number/hex-to-decimal.html)
 
 
