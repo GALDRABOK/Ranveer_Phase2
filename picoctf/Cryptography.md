@@ -13,7 +13,7 @@ debugger0_a: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamicall
 Key findings:- file format:-ELF,architecture:-x86-64n,
 
 2.I used to IDA's decompiler,(this is because the question asked to find contents of the eax register,which is responsible for storing return value of a function)
-![IDA Screenshot of main function](../Screenshots/Cryptography_Challenge1_IDA.jpg)
+![IDA Screenshot of main function](picoctf/Screenshots/Cryptography_Challenge1_IDA.jpg)
 
 
 
