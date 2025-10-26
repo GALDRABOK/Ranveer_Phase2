@@ -15,27 +15,31 @@ Key findings:- file format:-ELF,architecture:-x86-64n,
 2.I used to IDA's decompiler,(this is because the question asked to find contents of the eax register,which is responsible for storing return value of a function)
 ![IDA Screenshot of main function](./Screenshots/Cryptography_Challenge1_IDA.jpg)
 
-
+3.Found the contents,converted them from hexadecimal to decimal format.
 
 ## Flag:
 
 ```
-picoCTF{}
+picoCTF{549698}
 ```
 
 ## Concepts learnt:
 
-- Include the new topics you've come across and explain them in brief
-- 
+-The x86-64 instruction set
+- Assembly Instructions: mov (copies value from source to destination)
+-use of "h" suffix for hexadecimal notation
 
 ## Notes:
 
-- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
-- 
+- Initialy when i found the contents,I didn't know that the suffix -h was for hexadecimal,so I assumed that the contents given were part of the flag and tried to submit it without any conversion.
+- Generating the psedocode of the main function in IDA,directly gave the answer in decimal format
+![IDA Screenshot of pseudocode](./Screenshots/Cryptography_Challenge1_pseudocode.jpg)
 
 ## Resources:
 
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
+-IDA Pro: The primary analysis tool used to view the assembly and pseudo-code.(https://hex-rays.com/)
+-Guide to x86-64:list of registers used(https://web.stanford.edu/class/cs107/guide/x86-64.html)
+-Hexadecimal Conversion:online tool used to convert the final hexadecimal value to the required decimal format.(https://www.rapidtables.com/convert/number/hex-to-decimal.html)
 
 
 ***
