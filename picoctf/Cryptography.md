@@ -5,14 +5,10 @@ Can you figure out what is in the eax register at the end of the main function? 
 ## Solution:
 
 1.Used file command to determine file type and architecture 
-```bash
+```
 file debugger0_a 
-```
-```
 debugger0_a: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=15a10290db2cd2ec0c123cf80b88ed7d7f5cf9ff, for GNU/Linux 3.2.0, not stripped
 ```
-
-Key findings:- file format:-ELF,architecture:-x86-64n,
 
 2.I used to IDA's decompiler,(this is because the question asked to find contents of the eax register,which is responsible for storing return value of a function)
 ![IDA Screenshot of main function](./Screenshots/Cryptography_Challenge1_IDA.jpg)
@@ -47,10 +43,34 @@ picoCTF{549698}
 
 ***
 
-# 2. Challenge name
 
-> Description
+# 2.ARMssembly 1
 
-.
-.
-.
+For what argument does this program print `win` with variables 58, 2 and 3? File: chall_1.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+
+## Solution:
+
+1.Used file command to determine file type.
+```
+file chall_1.S
+chall_1.S: assembler source text, ASCII text
+```
+
+
+## Flag:
+
+```
+picoCTF{}
+```
+
+## Concepts learnt:
+
+
+## Notes:
+
+
+## Resources:
+
+
+***
