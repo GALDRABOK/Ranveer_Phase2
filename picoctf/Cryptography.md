@@ -84,39 +84,31 @@ main:
 
 3.Analysis of func
 I traced the flow in func to determine the value required to make the value returned to w0 in main is 0.
-The user input is stored at memory loaction [sp,12]
-Here three hardcoded constants are present let them be 
-C1=58 (stored at memory location[sp,16])
-C2=2 (stored at memory location[sp,20])
-C3=3 (stored at memory location[sp,24])
-Then 52 is shfited by 2 bits to the left and the result=232 is stored at memory location[sp,28].
-Then we are loading 232 into w1 and 3 into w0 and perfroming w0=w0/w1(w0=232/3=77).
-The result 77 is stored at [sp,28], subsequently loaded into w1 and the user input is loaded into w0.
-finally w0=w1-w0 is done and the result is then loaded onto w0 and returned.
+Here three hardcoded constants are present.
 
 ```
     func:
 	sub	sp, sp, #32
-	str	w0, [sp, 12]
+	str	w0, [sp, 12]        #The user input is stored at memory loaction [sp,12]
 	mov	w0, 58
-	str	w0, [sp, 16]
+	str	w0, [sp, 16]        # 58 (stored at memory location[sp,16])
 	mov	w0, 2
-	str	w0, [sp, 20]
+	str	w0, [sp, 20]        # 2 (stored at memory location[sp,20])
 	mov	w0, 3
-	str	w0, [sp, 24]
+	str	w0, [sp, 24]        # 3 (stored at memory location[sp,24])
 	ldr	w0, [sp, 20]
 	ldr	w1, [sp, 16]
-	lsl	w0, w1, w0.       # 58 is being shifted to the left by 2 bits
-	str	w0, [sp, 28]
-	ldr	w1, [sp, 28]
-	ldr	w0, [sp, 24]
-	sdiv	w0, w1, w0
-	str	w0, [sp, 28]
-	ldr	w1, [sp, 28]
-	ldr	w0, [sp, 12]
-	sub	w0, w1, w0
-	str	w0, [sp, 28]
-	ldr	w0, [sp, 28]
+	lsl	w0, w1, w0.         # 58 is being shifted to the left by 2 bits
+	str	w0, [sp, 28]        # result of shift=232 stored at [sp,28]
+	ldr	w1, [sp, 28]        # 232 is loaded into w1
+	ldr	w0, [sp, 24]        # 3 is loaded into w0
+	sdiv	w0, w1, w0      # w0=w0/w1
+	str	w0, [sp, 28]        # result=77 of sdiv stored at [sp,28]
+	ldr	w1, [sp, 28]        # 77 loaded into w1
+	ldr	w0, [sp, 12]        # user input loaded in w0
+	sub	w0, w1, w0          # w0=w1-w0  (final result=user input -77)
+	str	w0, [sp, 28]        # result stored at [sp,28]
+	ldr	w0, [sp, 28]        
 	add	sp, sp, 32
 	ret
 	.size	func, .-func
@@ -145,5 +137,5 @@ picoCTF{0000004d}
 ## Resources:
 -   dec to hex converter (https://www.rapidtables.com/convert/number/decimal-to-hex.html)
 -   ARM Instruction Set (https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf)
-
+    
 ***
