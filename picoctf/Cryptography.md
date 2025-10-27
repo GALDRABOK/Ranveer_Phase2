@@ -55,22 +55,95 @@ For what argument does this program print `win` with variables 58, 2 and 3? File
 ```
 file chall_1.S
 chall_1.S: assembler source text, ASCII text
+
+```
+2.Analysis of main function
+Upon analysing the main function,we find that function func is called and the result is returned in w0.
+Subsequently contents of w0 is compared to 0,if w0 is not equal to 0 the flow is branched to .L4 which eventually results in the You Lose :( output.
+```
+main:
+	stp	x29, x30, [sp, -48]!
+	add	x29, sp, 0
+	str	w0, [x29, 28]
+	str	x1, [x29, 16]
+	ldr	x0, [x29, 16]
+	add	x0, x0, 8
+	ldr	x0, [x0]
+	bl	atoi
+	str	w0, [x29, 44]
+	ldr	w0, [x29, 44]
+	bl	func
+	cmp	w0, 0
+	bne	.L4
+	adrp	x0, .LC0
+	add	x0, x0, :lo12:.LC0
+	bl	puts
+	b	.L6
+
 ```
 
+3.Analysis of func
+I traced the flow in func to determine the value required to make the value returned to w0 in main is 0.
+The user input is stored at memory loaction [sp,12]
+Here three hardcoded constants are present let them be 
+C1=58 (stored at memory location[sp,16])
+C2=2 (stored at memory location[sp,20])
+C3=3 (stored at memory location[sp,24])
+Then 52 is shfited by 2 bits to the left and the result=232 is stored at memory location[sp,28].
+Then we are loading 232 into w1 and 3 into w0 and perfroming w0=w0/w1(w0=232/3=77).
+The result 77 is stored at [sp,28], subsequently loaded into w1 and the user input is loaded into w0.
+finally w0=w1-w0 is done and the result is then loaded onto w0 and returned.
 
+```
+    func:
+	sub	sp, sp, #32
+	str	w0, [sp, 12]
+	mov	w0, 58
+	str	w0, [sp, 16]
+	mov	w0, 2
+	str	w0, [sp, 20]
+	mov	w0, 3
+	str	w0, [sp, 24]
+	ldr	w0, [sp, 20]
+	ldr	w1, [sp, 16]
+	lsl	w0, w1, w0.       # 58 is being shifted to the left by 2 bits
+	str	w0, [sp, 28]
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 24]
+	sdiv	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w1, [sp, 28]
+	ldr	w0, [sp, 12]
+	sub	w0, w1, w0
+	str	w0, [sp, 28]
+	ldr	w0, [sp, 28]
+	add	sp, sp, 32
+	ret
+	.size	func, .-func
+	.section	.rodata
+	.align	3
+```
+
+From the analysis it is clear that 77-user input needs to be 0 so that the function returns 0.Thus the user input needs to be 77
+
+4.Flag formating
+77 is then converted to hexadecimal,which is 4D and changed to fit the requriements provided by the challenge
 ## Flag:
 
 ```
-picoCTF{}
+picoCTF{0000004d}
 ```
 
 ## Concepts learnt:
-
+-   ARMv8-A(AArch64,this is the 64 bit set) instruction set
+-   In ARM w0 register is used to hold return value of function
+-   ARM instruction set:-logical shift left(lsl),signed divided(sdiv),comparison(cmp),Branch if Not Equal(bne)
 
 ## Notes:
-
+-   only static analysis was used to solve the challenge as the target value was calculated using hardcoded constants,makign dynamic debuggin(GDB) unecessary
 
 ## Resources:
-
+-   dec to hex converter (https://www.rapidtables.com/convert/number/decimal-to-hex.html)
+-   ARM Instruction Set (https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf)
 
 ***
