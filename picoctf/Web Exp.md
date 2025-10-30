@@ -37,15 +37,20 @@ SELECT * FROM users WHERE username='admin' /*' AND password='pass'
 ```
 <br>
 4.Again checking page 2, I find new restrictions.
+
 ```
 Round3: or and = like > < --
 ```
+
 Seeing how our multiline comment injection is still not restricted I just use that again and we move to the next round.
 <br>
+
 5.Checking page 2,I find more new restrictions.
+
 ```
 Round4: or and = like > < -- admin
 ```
+
 Now the word admin has been banned,i need to find a way to input admin.First I think of using the concat() function,however upon thinking a bit it does not seem feasable as the input I give is between quotes and due to that it will be taken like a string.Then I try to use '+' operator to add two strings to make the word admin,however that fails.Upon further reasearch i find a concat operator '||' and try using that.
 
 ![screenshot of sql roudn 4](./Screenshots/WebExp_Challenge1_Round4.jpg)
