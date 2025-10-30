@@ -1,4 +1,4 @@
-# 1. Challenge name
+# 1. IQ Test
 
 > Put in the challenge's description here
 
@@ -36,14 +36,13 @@ picoCTF{}
 
 ***
 
-# 2. Challenge name
+# 2. I like Logic
 
-> Put in the challenge's description here
+i like logic and i like files, apparently, they have something in common, what should my next step be.
 
 ## Solution:
 
-- Include as many steps as you can with your thought process
-- You **must** include images such as screenshots wherever relevant.
+1.
 
 ```
 put codes & terminal outputs here using triple backticks
@@ -74,7 +73,7 @@ picoCTF{}
 
 ***
 
-# 3. Challenge name
+# 3. Bare Metal Alchemist
 
 > Put in the challenge's description here
 

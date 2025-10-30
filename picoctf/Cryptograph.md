@@ -1,4 +1,4 @@
-# 1. Challenge name
+# 1. RSA oracle 
 
 > Put in the challenge's description here
 
@@ -36,7 +36,7 @@ picoCTF{}
 
 ***
 
-# 2. Challenge name
+# 2. Custom encryption
 
 > Put in the challenge's description here
 
@@ -74,7 +74,7 @@ picoCTF{}
 
 ***
 
-# 3. Challenge name
+# 3. miniRSA 
 
 > Put in the challenge's description here
 
