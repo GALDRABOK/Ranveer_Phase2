@@ -57,9 +57,7 @@ file chall_1.S
 chall_1.S: assembler source text, ASCII text
 
 ```
-2.Analysis of main function
-Upon analysing the main function,we find that function func is called and the result is returned in w0.
-Subsequently contents of w0 is compared to 0,if w0 is not equal to 0 the flow is branched to .L4 which eventually results in the You Lose :( output.
+2.Analysis of main function:Upon analysing the main function,we find that function func is called and the result is returned in w0.Subsequently contents of w0 is compared to 0,if w0 is not equal to 0 the flow is branched to .L4 which eventually results in the You Lose :( output.
 ```
 main:
 	stp	x29, x30, [sp, -48]!
@@ -82,8 +80,7 @@ main:
 
 ```
 
-3.Analysis of func
-I traced the flow in func to determine the value required to make the value returned to w0 in main is 0.
+3.Analysis of func:I traced the flow in func to determine the value required to make the value returned to w0 in main is 0.
 Here three hardcoded constants are present.
 
 ```
@@ -118,8 +115,7 @@ Here three hardcoded constants are present.
 
 From the analysis it is clear that 77-user input needs to be 0 so that the function returns 0.Thus the user input needs to be 77
 
-4.Flag formating
-77 is then converted to hexadecimal,which is 4D and changed to fit the requriements provided by the challenge
+4.Flag formating:77 is then converted to hexadecimal,which is 4D and changed to fit the requriements provided by the challenge
 ## Flag:
 
 ```
@@ -137,5 +133,42 @@ picoCTF{0000004d}
 ## Resources:
 -   dec to hex converter (https://www.rapidtables.com/convert/number/decimal-to-hex.html)
 -   ARM Instruction Set (https://iitd-plos.github.io/col718/ref/arm-instructionset.pdf)
-    
+
+***
+
+# 1. vault-door-3
+
+> This vault uses for-loops and byte arrays. The source code for this vault is here: VaultDoor3.java
+## Solution:
+
+- Include as many steps as you can with your thought process
+- You **must** include images such as screenshots wherever relevant.
+
+```
+put codes & terminal outputs here using triple backticks
+
+you may also use ```python for python codes for example
+```
+
+## Flag:
+
+```
+picoCTF{}
+```
+
+## Concepts learnt:
+
+- Include the new topics you've come across and explain them in brief
+- 
+
+## Notes:
+
+- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
+- 
+
+## Resources:
+
+- Include the resources you've referred to with links. [example hyperlink](https://google.com)
+
+
 ***
