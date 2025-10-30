@@ -12,6 +12,7 @@ and text on the second page is
 ```
 Round1: or
 ```
+<br>
 2.I start by inputing a random username and password to see what kind of error is shown.However along with an error,the page also shows an sql command.This make me believe that this challenge is based on sql injection.
 ![screenshot of sql command 1](./Screenshots/WebExp_Challenge1_SQLcommand1.jpg)
 Now we need to give the username such that it breaks the sql command and prevents the page from fethcing any password.I first try using 'or' however that does not take me anywhere,this make me conclude that the text on page 2 tells us what is restricted.For the second try i use '--',this is used to make comments in sql.Using that I am hoping that the page is unable to fetch the password from the database.So to test my theory I enter "admin'--" in the admin field and enter a random password.
@@ -20,7 +21,7 @@ This is accepted by the page and I move on to the next round.The final sql query
 ```
 SELECT * FROM users WHERE username='admin' --' AND password='pico'
 ```
-
+<br>
 3.Now on after reaching round 2,I check page 2 and see that new restrictions have been applied.
 ```
 Round2: or and like = --
@@ -31,12 +32,13 @@ This works and we move to round 3.The final sql query would look like
 ```
 SELECT * FROM users WHERE username='admin' /*' AND password='pass'
 ```
+<br>
 4.Again checking page 2, I find new restrictions.
 ```
 Round3: or and = like > < --
 ```
 Seeing how our multiline comment injection is still not restricted I just use that again and we move to the next round.
-
+<br>
 5.Checking page 2,I find more new restrictions.
 ```
 Round4: or and = like > < -- admin
@@ -47,6 +49,7 @@ This is succesful and I move on to the next round.The sql query would look like
 ```
 SELECT * FROM users WHERE username='ad'||'min'/*' AND password='pass'
 ```
+<br>
 6.Round 5 the final round upon logining in on this page,we should get the flag.Like always i check page 2 for restrictions
 ```
 Round5: or and = like > < -- union admin
@@ -60,6 +63,7 @@ The sql query would be:
 ```
 ad'||'min'/*
 ```
+
 ## Flag:
 ```
 picoCTF{y0u_m4d3_1t_79a0ddc6}
