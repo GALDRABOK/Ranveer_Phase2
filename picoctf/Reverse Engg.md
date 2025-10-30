@@ -10,7 +10,7 @@ file debugger0_a
 debugger0_a: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=15a10290db2cd2ec0c123cf80b88ed7d7f5cf9ff, for GNU/Linux 3.2.0, not stripped
 ```
 
-2.I used to IDA's decompiler,(this is because the question asked to find contents of the eax register,which is responsible for storing return value of a function)
+2.I used IDA's decompiler,(this is because the question asked to find contents of the eax register,which is responsible for storing return value of a function)
 ![IDA Screenshot of main function](./Screenshots/Cryptography_Challenge1_IDA.jpg)
 
 3.Found the contents,converted them from hexadecimal to decimal format.
@@ -24,12 +24,12 @@ picoCTF{549698}
 ## Concepts learnt:
 
 -  The x86-64 instruction set
--  Assembly Instructions: example mov (copies value from source to destination)
+-  Assembly Instructions
 -  use of "h" suffix for hexadecimal notation
 
 ## Notes:
 
-- Initialy when i found the contents,I didn't know that the suffix -h was for hexadecimal,so I assumed that the contents given were part of the flag and tried to submit it without any conversion.
+- Initially when i found the contents,I didn't know that the suffix -h was for hexadecimal,so I assumed that the contents given were part of the flag and tried to submit it without any conversion.
 - Generating the psedocode of the main function in IDA,directly gave the answer in decimal format
 ![IDA Screenshot of pseudocode](./Screenshots/Cryptography_Challenge1_pseudocode.jpg)
 
@@ -57,7 +57,7 @@ file chall_1.S
 chall_1.S: assembler source text, ASCII text
 
 ```
-2.Analysis of main function:Upon analysing the main function,we find that function func is called and the result is returned in w0.Subsequently contents of w0 is compared to 0,if w0 is not equal to 0 the flow is branched to .L4 which eventually results in the You Lose :( output.
+2.Analysis of main function:Upon analyzing the main function,we find that function func is called and the result is returned in w0.Subsequently contents of w0 is compared to 0,if w0 is not equal to 0 the flow is branched to .L4 which eventually results in the You Lose :( output.
 ```
 main:
 	stp	x29, x30, [sp, -48]!
@@ -136,39 +136,109 @@ picoCTF{0000004d}
 
 ***
 
-# 1. vault-door-3
+# 3. vault-door-3
 
-> This vault uses for-loops and byte arrays. The source code for this vault is here: VaultDoor3.java
+This vault uses for-loops and byte arrays. The source code for this vault is here: VaultDoor3.java
 ## Solution:
 
-- Include as many steps as you can with your thought process
-- You **must** include images such as screenshots wherever relevant.
+1.Analysing the code:The challenge provides a file with the following code in Java
 
 ```
-put codes & terminal outputs here using triple backticks
+import java.util.*;
 
-you may also use ```python for python codes for example
+class VaultDoor3 {
+    public static void main(String args[]) {
+        VaultDoor3 vaultDoor = new VaultDoor3();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter vault password: ");
+        String userInput = scanner.next();
+	String input = userInput.substring("picoCTF{".length(),userInput.length()-1);
+	if (vaultDoor.checkPassword(input)) {
+	    System.out.println("Access granted.");
+	} else {
+	    System.out.println("Access denied!");
+        }
+    }
+
+    // Our security monitoring team has noticed some intrusions on some of the
+    // less secure doors. Dr. Evil has asked me specifically to build a stronger
+    // vault door to protect his Doomsday plans. I just *know* this door will
+    // keep all of those nosy agents out of our business. Mwa ha!
+    //
+    // -Minion #2671
+    public boolean checkPassword(String password) {
+        if (password.length() != 32) {
+            return false;
+        }
+        char[] buffer = new char[32];
+        int i;
+        for (i=0; i<8; i++) {
+            buffer[i] = password.charAt(i);
+        }
+        for (; i<16; i++) {
+            buffer[i] = password.charAt(23-i);
+        }
+        for (; i<32; i+=2) {
+            buffer[i] = password.charAt(46-i);
+        }
+        for (i=31; i>=17; i-=2) {
+            buffer[i] = password.charAt(i);
+        }
+        String s = new String(buffer);
+        return s.equals("jU5t_a_sna_3lpm12g94c_u_4_m7ra41");
+    }
+}
+
+```
+we can see that the function checkPasswords takes the input string,manipulates it and compares it against with jU5t_a_sna_3lpm12g94c_u_4_m7ra41.If the strings match the password is correct.
+
+2.Breaking down checkPassword and reversing the process to get oringal password:for getting the orignal password we just reverse the logic of each loop.Writing a python code to do so.
+
+```
+buffer="jU5t_a_sna_3lpm12g94c_u_4_m7ra41"
+target = [""] * 32
+
+for i in range(8):
+    target[i] =buffer[i]
+
+for i in range(8, 16):
+    target[23-i] = buffer[i]
+    
+for i in range(16, 32, 2):
+    target[46-i] = buffer[i]
+    
+for i in range(31, 16, -2):
+    target[i] = buffer[i]
+
+final=''
+for i in target:
+    final+=i
+    
+print(final)
+```
+Output:
+```
+jU5t_a_s1mpl3_an4gr4m_4_u_c79a21
 ```
 
 ## Flag:
 
 ```
-picoCTF{}
+picoCTF{jU5t_a_s1mpl3_an4gr4m_4_u_c79a21}
 ```
 
 ## Concepts learnt:
 
-- Include the new topics you've come across and explain them in brief
-- 
+- Java syntax and functions
 
 ## Notes:
 
-- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
-- 
+- initially i started by recountructing the password one charecter at a time,but seeing as that was time consuming,i decided to just write the code in python
+- this challene was easier compared to the other two in this assigment,due to prior knowledge and decent hold on the concept of loops and indexing
 
 ## Resources:
 
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
+- online python compiler(https://www.programiz.com/python-programming/online-compiler/)
 
 
 ***

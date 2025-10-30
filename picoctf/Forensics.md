@@ -1,6 +1,6 @@
 # 1. Trivial Flag Transfer Protocol
 
-> Figure out how they moved the flag.
+Figure out how they moved the flag.
 
 ## Solution:
 
