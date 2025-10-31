@@ -134,6 +134,7 @@ From this I dound that the files was an BMP file.I renamed the file with a .bmp 
 2.I opened the file in hexedit to view the data in hex format.I also looked up bitmapinfoheaders example and compared the two.Imediately I notice a difference in the hexcodes in the BMP header,the offset where the pixel arrays can be found is different,however that should not be the case.
 
 [screenshot of hexedit](./Screenshots/Forensics_Challenge2_hexedit.jpg)
+<br>
 [screenshot of example of bmp file header](./Screenshots/Forensics_Challenge2_example.jpg)
 
 The file
