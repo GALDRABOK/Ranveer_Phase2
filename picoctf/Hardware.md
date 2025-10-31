@@ -395,7 +395,6 @@ TFCCTF{Th1s_1s_som3_s1mpl3_4rdu1no_f1rmw4re}
 
 - CyberChef(https://gchq.github.io/CyberChef/)
 - AVR: Architecture, Assembly & Reverse Engineering(https://hackaday.io/course/176685-avr-architecture-assembly-reverse-engineering)
-- 
 
 
 ***
