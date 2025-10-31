@@ -6,10 +6,12 @@ Figure out how they moved the flag.
 
 1.Opened the file in wireshark.
 ![screenshot of wireshark](./Screenshots/Forensics_Challenge1_Wireshark.jpg)
+<br>
 
 2.Found out that TFTP protocol is used(lookied it up and found that it is a protocol used to tranfer files).Used export objects feature to automatically reconstruct transfered files.(Files-->Export Objects-->TFTP)
 ![screenshot of export objects window](./Screenshots/Forensics_Challenge1_ExportObjects.jpg)
 6 files were reconstructed(3 images,2 text files, 1 .deb file,)
+<br>
 
 3.Opened file instruction and found the following text with
 ```
@@ -29,6 +31,8 @@ Seeing how ROT13 cipher was used for the instruction,I assumed the same here and
 IUSEDTHEPROGRAMANDHIDITWITH-DUEDILIGENCE.CHECKOUTTHEPHOTOS
 I USED THE PROGRAM AND HID IT WITH-DUE DILIGENCE.CHECK OUT THE PHOTOS
 ```
+<br>
+
 4.The "PROGRAM" is the .deb file,
 
 5.
@@ -101,7 +105,8 @@ Image Size                      : 1134x306
 Megapixels                      : 0.347
 ```
 From this I dound that the files was an BMP file.I renamed the file with a .bmp extension at the end and tried opening the image but instead of seeing an iamge,I was being given an error.
-![screenshot of steghide ](./Screenshots/Forensics_Challenge2_BMPerror.jpg)
+![screenshot of error](./Screenshots/Forensics_Challenge2_BMPerror.jpg)
+<br>
 
 2.I opened the file in hexedit to view the data in hex format.
 
@@ -131,38 +136,36 @@ picoCTF{}
 
 # 3. m00nwalk
 
-> Put in the challenge's description here
+Decode this message from the moon.
 
 ## Solution:
 
-- Include as many steps as you can with your thought process
-- You **must** include images such as screenshots wherever relevant.
+1.opened the wav file in audacity to check if any hints are present in the spectrogram.However,I find nothing of use.
+![screenshot of audacity](./Screenshots/Forensics_Challenge3_audacity.jpg)
+<br>
 
-```
-put codes & terminal outputs here using triple backticks
+2.After listening to the audio, I noticed a distinct, repeating pulse.Upon research I find that this is characteristic of an SSTV transmission,so I try to use a SSTV decoder.
+![screenshot of decoder](./Screenshots/Forensics_Challenge3_decoder.jpg)
+<br>
 
-you may also use ```python for python codes for example
-```
+3.After using the decoder,an image is seen which contains the flag.
+![screenshot of decoded image](./Screenshots/Forensics_Challenge3_decoded.jpg)
+<br>
 
 ## Flag:
 
 ```
-picoCTF{}
+picoCTF{beep_boop_im_in_space}
 ```
 
 ## Concepts learnt:
 
-- Include the new topics you've come across and explain them in brief
-- 
-
-## Notes:
-
-- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
-- 
+- UART Protocol Decoding: Learned how to identify a common digital communication protocol, Async Serial (UART), from its visual waveform.
+- Using Protocol Analyzers: An understanding that the specific software, such as Logic 2, includes "analyzers" that could be run on raw signals to instantly decode into readable data formats like text or hex.
 
 ## Resources:
 
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
-
-
+-   Online SSTV Decoder(https://sstv-decoder.mathieurenaud.fr/)
+-   Slow-scan television(https://en.wikipedia.org/wiki/Slow-scan_television)
+ 
 ***
