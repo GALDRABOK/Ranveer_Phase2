@@ -149,18 +149,15 @@ picoCTF{custom_d2cr0pt6d_66778b34}
 
 ## Concepts learnt:
 
-- Include the new topics you've come across and explain them in brief
-- 
 
-## Notes:
+- Diffie-Hellman Key Exchange: Learned to identify and solve this classic key agreement algorithm, where two parties calculate a shared secret key (the number 94) using modular exponentiation.
+- Reversible Encryption Chains: Understood that complex encryption is often a chain of simple, reversible steps. To decrypt, you must process them in reverse order.
+- XOR Property (Self-Inverse):The property that XORing a value with a key twice returns the original value:
 
-- Include any alternate tangents you went on while solving the challenge, including mistakes & other solutions you found.
-- 
 
 ## Resources:
-
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
-
+- Diffie–Hellman key exchange(https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
+- XOR Cipher(https://www.geeksforgeeks.org/dsa/xor-cipher/)
 
 ***
 
