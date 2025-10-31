@@ -1,17 +1,20 @@
-# 1. Cbuffer overflow 0
-
-> Put in the challenge's description here
+# 1. buffer overflow 0
+Let's start off simple, can you overflow the correct buffer? The program is available here. You can view source here.
+Connect using:
+nc saturn.picoctf.net 62023
 
 ## Solution:
 
-- Include as many steps as you can with your thought process
-- You **must** include images such as screenshots wherever relevant.
+1.I start with connecting to the given netcat conenciton.It asks for an input and then exits after getting an input.
+```
 
 ```
-put codes & terminal outputs here using triple backticks
+nc saturn.picoctf.net 62023
 
-you may also use ```python for python codes for example
+Input: pico
+The program will exit now
 ```
+2.I take a look at the C program
 
 ## Flag:    
 

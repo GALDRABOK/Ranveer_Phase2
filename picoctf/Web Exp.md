@@ -92,13 +92,17 @@ picoCTF{y0u_m4d3_1t_79a0ddc6}
 
 # 2. SSTI1 
 
-> Put in the challenge's description here
+I made a cool website where you can announce whatever you want! Try it out!
+I heard templating is a cool and modular way to build web apps! Check out my website here!
 
 ## Solution:
 
-- Include as many steps as you can with your thought process        
-- You **must** include images such as screenshots wherever relevant.
+1.Upon accessing the provided URL,I found a simple webpage with a text input field and a button.
+![screenshot of webpage](./Screenshots/WebExp_Challenge2_webpage.jpg)
+It displays back whatever I input in the field
+![screenshot of webpage output ](./Screenshots/WebExp_Challenge2_output.jpg)
 
+2.Upond doing some research on SSTI(Server-Side Template Injection)
 ```
 put codes & terminal outputs here using triple backticks
 
