@@ -135,8 +135,7 @@ From this I dound that the files was an BMP file.I renamed the file with a .bmp 
 
 ![screenshot of hexedit](./Screenshots/Forensics_Challenge2_hexedit.jpg)
 
-<br>
-[screenshot of example of bmp file header](./Screenshots/Forensics_Challenge2_example.jpg)
+![screenshot of hexedit](./Screenshots/Forensics_Challenge2_example.jpg)
 
 The file
 ```
