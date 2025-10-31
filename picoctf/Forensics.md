@@ -148,7 +148,7 @@ Decode this message from the moon.
 ![screenshot of decoder](./Screenshots/Forensics_Challenge3_decoder.jpg)
 <br>
 
-3.After using the decoder,an image is seen which contains the flag.
+3.After using the decoder,an image is seen which contains the flag.<br>
 ![screenshot of decoded image](./Screenshots/Forensics_Challenge3_decoded.jpg)
 <br>
 
