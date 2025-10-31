@@ -133,7 +133,8 @@ From this I dound that the files was an BMP file.I renamed the file with a .bmp 
 
 2.I opened the file in hexedit to view the data in hex format.I also looked up bitmapinfoheaders example and compared the two.Imediately I notice a difference in the hexcodes in the BMP header,the offset where the pixel arrays can be found is different,however that should not be the case.
 
-[screenshot of hexedit](./Screenshots/Forensics_Challenge2_hexedit.jpg)
+![screenshot of hexedit](./Screenshots/Forensics_Challenge2_hexedit.jpg)
+
 <br>
 [screenshot of example of bmp file header](./Screenshots/Forensics_Challenge2_example.jpg)
 
@@ -157,7 +158,7 @@ How it should be
 ```
 So I fixed the header and dowloaded the image.
 
-[image after trying fix1](./Screenshots/Forensics_Challenge2_fixed.jpg)
+![image after trying fix1](./Screenshots/Forensics_Challenge2_fixed.jpg)
 
 This was a dummy or more of a decoy image with the text
 ```
@@ -167,7 +168,7 @@ notaflag{sorry}
 
 3.Further moving on I change the value of the widht and height values in the DIB header,to make sure the entire image is being shown(I change them such that they form a 1920X1080 image).Changing both distorted the image,so i changed the height back to orignal,however I got a distorted iamge again.Finally I changed back the widht to the orignal and increased the height to 1080 pixels.The full image can now been seen and the flag is found
 
-[image after fixing file](./Screenshots/Forensics_Challenge2_fullyfixed.jpg)
+![image after fixing file](./Screenshots/Forensics_Challenge2_fullyfixed.jpg)
 
 ## Flag:
 
