@@ -1,3 +1,80 @@
+# 1. IQ Test
+
+let your input x = 30478191278.
+
+wrap your answer with nite{ } for the flag.
+
+As an example, entering x = 34359738368 gives (y0, ..., y11), so the flag would be nite{010000000011}.
+
+## Solution:
+1.First we need to figure out the vaules of x0-x35.For this I convert the given x to binary
+'''
+011100011000101001000100101010101110
+'''
+x0 is the LSB which means x0 is the rightmost bit of the binary and bit indices increase when moving left.
+```
+x0 = 0
+x1 = 1
+x2 = 1
+x3 = 1
+x4 = 0
+x5 = 1
+x6 = 0
+x7 = 1
+x8 = 0
+x9 = 1
+x10 = 0
+x11 = 1
+x12 = 0
+x13 = 0
+x14 = 1
+x15 = 0
+x16 = 0
+x17 = 0
+x18 = 1
+x19 = 0
+x20 = 0
+x21 = 1
+x22 = 0
+x23 = 1
+x24 = 0
+x25 = 0
+x26 = 0
+x27 = 1
+x28 = 1
+x29 = 0
+x30 = 0
+x31 = 0
+x32 = 1
+x33 = 1
+x34 = 1
+x35 = 0
+```
+
+2.Now that we have all x0..x35 we evaluate the circuit. each gate is standard.The bubble means invert. I map every gate to its boolean truth table and apply them node by node until I reach y0..y11.”
+![screenshot of truth table](./Screenshots/Hardware_Challenge1_truthtable.jpg)
+![screenshot of solved circuit ](./Screenshots/Hardware_Challenge1_evaluated.jpg)
+
+## Flag:
+
+```
+nite{100100000110}
+```
+
+## Concepts learnt:
+
+- bit indexing and LSB
+- inverted inputs via bubble
+
+## Resources:
+
+- Logic Gates - Definition, Types, Uses(https://www.geeksforgeeks.org/digital-logic/logic-gates/)
+- Bit numbering(https://en.wikipedia.org/wiki/Bit_numbering)
+
+
+***
+
+
 # 2. I like Logic
 
 i like logic and i like files, apparently, they have something in common, what should my next step be.
@@ -31,7 +108,8 @@ FCSC{b1dee4eeadf6c4e60aeb142b0b486344e64b12b40d1046de95c89ba5e23a9925}
 
 ## Resources:
 
-- Include the resources you've referred to with links. [example hyperlink](https://google.com)
+- Universal Asynchronous Receiver Transmitter (UART) Protocol(https://www.geeksforgeeks.org/computer-networks/universal-asynchronous-receiver-transmitter-uart-protocol/)
+- Logic 2 (https://www.saleae.com/pages/downloads   )
 
 
 ***
