@@ -169,18 +169,17 @@ What happens if you have a small exponent? There is a twist though, we padded th
 
 ## Solution:
 1.Thought process
-	RSA: c ≡ M^e (mod N) implies integer k with M^e = k·N + c.
-	•	If e is very small (e = 3) then M^3 may be ≤ slightly larger than N. That makes k small.
-	•	Loop small k, compute val = k·N + c. If val is an exact cube then M = cube_root(val). Convert M to bytes and search the whole byte string for picoCTF{ (hint: pico is inside, not at start).
-	•	Use exact integer arithmetic only. No floats.
-2.Exact steps I ran (chronological)
-    •	Confirmed inputs: had N, c (ciphertext as decimal integer), e = 3.
-	•	Wrote a minimal Python script to do integer 3-root test for k = 0..max_k. max_k = 20000 initially.
-	•	For each exact root found:
-	    	Convert integer root to bytes with to_bytes.
-	    	Search bytes for b"picoCTF{" (fallback b"pico").
-	•	If found save raw bytes to recovered_raw_k_<k>.bin and save readable snippet to flag_found.txt.
-	•	If no match up to max_k, increase max_k and repeat.
+RSA: c ≡ M^e (mod N) implies integer k with M^e = k·N + c. <br>
+If e is very small (e = 3) then M^3 may be ≤ slightly larger than N. That makes k small.<br>
+Loop small k, compute val = k·N + c. If val is an exact cube then M = cube_root(val). Convert M to bytes and search the whole byte string for picoCTF{
+Use exact integer arithmetic only. No floats.
+
+2.Exact steps I ran (chronological)<br>
+Confirmed inputs: had N, c (ciphertext as decimal integer), e = 3.<br>
+Wrote a minimal Python script to do integer 3-root test for k = 0,max_k = 20000 initially.<br>
+For each exact root found:Convert integer root to bytes with to_bytes.Search bytes for b"picoCTF{" (fallback b"pico").<br>
+If found save raw bytes to recovered_raw_k_<k>.bin and save readable snippet to flag_found.txt.<br>
+If no match up to max_k, increase max_k and repeat.
 ```
 N = int("""161576568432146305407822605195988788423367831773489...3151287""")
 c = int("""1220012318588871886132524757898884422174534558055593...0415482""")
@@ -256,8 +255,10 @@ NO VERIFIED FLAG OBTAINED
 -  Integer arithmetic vs floats: always use big integers for crypto. No float math for roots.
 -  Practical debugging: reading raw bytes, hex dumps, checking offsets when flag may not start at byte 0.
 
- 
+## Resources:
 
+- Padding oracle attack(https://en.wikipedia.org/wiki/Padding_oracle_attack)
+- Bleichenbacher's Padding Oracle(https://blog.leonardotamiano.xyz/tech/bleichenbacher-oracle/)
 
 ***
 
