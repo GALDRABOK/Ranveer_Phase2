@@ -1,3 +1,113 @@
+# 1. Challenge name
+
+Can you abuse the oracle?
+An attacker was able to intercept communications between a bank and a fintech company. They managed to get the message (ciphertext) and the password that was used to encrypt the message.
+After some intensive reconassainance they found out that the bank has an oracle that was used to encrypt the password and can be found here nc titan.picoctf.net 52896. Decrypt the password and use it to decrypt the message. The oracle can decrypt anything except the password.
+
+## Solution:
+1.RSA property:
+```
+E(m1) * E(m2) mod N = E(m1*m2 mod N)
+```
+so if we have ciphertext C = E(secret_password) <br>
+and we choose some small m (example “B” => ascii 66)<br>
+and ask oracle to encrypt m => we get C_m = E(m)<br>
+then we can multiply:
+```
+C_combined = C * C_m mod N
+```
+send C_combined to oracle decrypt
+oracle returns: D(C_combined) = m * secret_password mod N
+
+call this returned integer “m_prime”.
+
+2.get secret_password <br>
+we know m (we chose it)<br>
+we got m_prime from oracle D output<br>
+so:
+```
+secret_password = m_prime / m   (in Z_N)
+```
+Z_N means arithmetic modulo N. All operations (add, multiply, divide) are taken with respect to N so results stay inside {0,1,...,N-1}. Division is done by multiplying with a modular inverse: to “divide” by m you compute m^{-1} mod N and multiply. Example: with N=10, 7+5 = 2 (because 12 mod 10 = 2).<br>
+if division not clean => RSA modulus was involved.<br>
+we solved by recovering modulus N using small chosen plaintexts.<br>
+
+3.after N known,br.
+we compute modular inverse:
+```
+secret_password = m_prime * inverse(m,N) mod N
+```
+
+4.Recover N (if m' not divisible by m)<br>
+Collect a few encryptions for known small plaintexts (I used ASCII "1","2","3" → m = 49,50,51). For each pair (pt, ct) compute ct - pt^e. The GCD of those differences yields N.
+```
+from math import gcd
+vals = [CT1 - pow(49,65537), CT2 - pow(50,65537), CT3 - pow(51,65537)]
+N = gcd(gcd(vals[0], vals[1]), vals[2])
+print(N)
+```
+5.Recover password integer (modular division),br
+If oracle returned m_prime for the combined ciphertext, compute:
+```
+password_int = (m_prime * inv(m, N)) % N
+```
+```
+password_int = (m_prime * pow(m, -1, N)) % N
+print(password_int)
+```
+
+6.I took that m’ and actually did the modular inverse math
+
+I knew my chosen plaintext m = 66
+I had N (I got it by gcd trick)
+so I literally ran:
+```
+password = (m_prime * inverse(m,N)) mod N
+```
+this gives the real password integer.final password integer I got:
+```
+2058712530488426322051380681204458022625059979122319215186294973614404488321879828825738413877431210331240518852944303736889895093619302704670652486247537
+```
+8.convert password integer to raw bytes
+```
+pw_dec = <big integer>
+pw_bytes = pw_dec.to_bytes((pw_dec.bit_length()+7)//8,"big")
+write to pw.bin
+```
+
+9.feed pw.bin as the password file into openssl
+```
+openssl enc -aes-256-cbc -d -in secret.enc -pass file:pw.bin -out flag.txt
+
+10.final AES decrypt attempt failed<br>
+I then tried to actually use this recovered “password integer” as the key to decrypt secret.enc with OpenSSL. I converted it to bytes, I tried pass:file, md5, pbkdf2, direct key+iv derivation etc. Every attempt ended in
+```
+bad decrypt
+```
+So basically: the RSA part is solved, but the AES part still did NOT decrypt for me.
+
+
+```
+## Flag:
+
+```
+No verifiable flag found
+```
+
+## Concepts learnt:
+
+- RSA multiplicativity— Textbook RSA (no padding) is multiplicative:This allows an attacker with an encryption/decryption oracle to manipulate ciphertexts and recover plaintext relationships.
+- OpenSSL salted format:files starting with “Salted__” use a KDF to turn password into AES key and iv. if you guess the password wrong or guess the wrong encoding (raw bytes vs ascii) you get “bad decrypt”.
+- 	modular inverse for division:once N is known and we have m_prime = m * password mod N then password = m_prime * inv(m,N) mod N.
+
+## Resources:
+
+- Understanding Cryptography — Christof Paar & Jan Pelzl.(https://cacr.uwaterloo.ca/hac/)
+- GeeksForGeeks RSA and Modular Arithmetic articles (https://www.geeksforgeeks.org/rsa-algorithm-cryptography/)(https://www.geeksforgeeks.org/modular-multiplicative-inverse/)
+- GeeksForGeeks – GCD and Extended Euclidean Algorithm(https://www.geeksforgeeks.org/euclidean-algorithms-basic-and-extended/)
+
+
+***
 
 
 # 2. Custom encryption

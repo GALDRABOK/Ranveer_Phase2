@@ -131,7 +131,7 @@ which told me it was an Atmel AVR 8-bit executable. This confirmed the "Bare-Met
 
 3.The problem name "Alchemist" suggested a "transformation." The most common transformation is 16-bit text. I tried to find 16-bit strings (using avr-strings -e l), but that also gave me no output.
 
-4.At this point, I realized the flag was not just stored, it was being transformed. The simplest transformation in CTFs is XOR.
+4.At this point, I realized the flag was not just stored, it was being transformed.
 
 5.To find the key, I had to see what the program was doing. I ran avr-objdump -d firmware.elf to see the assembly code.
 ```
