@@ -1,4 +1,4 @@
-# 1. Challenge name
+# 1. RSA oracle
 
 Can you abuse the oracle?
 An attacker was able to intercept communications between a bank and a fintech company. They managed to get the message (ciphertext) and the password that was used to encrypt the message.
@@ -78,16 +78,13 @@ write to pw.bin
 9.feed pw.bin as the password file into openssl
 ```
 openssl enc -aes-256-cbc -d -in secret.enc -pass file:pw.bin -out flag.txt
-
+```
 10.final AES decrypt attempt failed<br>
 I then tried to actually use this recovered “password integer” as the key to decrypt secret.enc with OpenSSL. I converted it to bytes, I tried pass:file, md5, pbkdf2, direct key+iv derivation etc. Every attempt ended in
 ```
 bad decrypt
 ```
 So basically: the RSA part is solved, but the AES part still did NOT decrypt for me.
-
-
-```
 ## Flag:
 
 ```
