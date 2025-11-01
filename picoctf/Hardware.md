@@ -53,7 +53,7 @@ x35 = 0
 
 2.Now that we have all x0..x35 we evaluate the circuit. each gate is standard.The bubble means invert. I map every gate to its boolean truth table and apply them node by node until I reach y0..y11.”
 ![screenshot of truth table](./Screenshots/Hardware_Challenge1_truthtable.jpg)
-![screenshot of solved circuit ](./Screenshots/Hardware_Challenge1_evaluated.jpg)
+![screenshot of solved circuit ](./Screenshots/Hardware_Challenge1_evaluated.png)
 
 ## Flag:
 
