@@ -1,4 +1,5 @@
 
+
 # 2. Custom encryption
 
 Can you get sense of this code file and write the function that will decode the given encrypted file content.
@@ -159,6 +160,104 @@ picoCTF{custom_d2cr0pt6d_66778b34}
 ## Resources:
 - Diffie–Hellman key exchange(https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange)
 - XOR Cipher(https://www.geeksforgeeks.org/dsa/xor-cipher/)
+
+***
+
+# 1. Mini RSA
+
+What happens if you have a small exponent? There is a twist though, we padded the plaintext so that (M ** e) is just barely larger than N. Let's decrypt this: ciphertext
+
+## Solution:
+1.Thought process
+	RSA: c ≡ M^e (mod N) implies integer k with M^e = k·N + c.
+	•	If e is very small (e = 3) then M^3 may be ≤ slightly larger than N. That makes k small.
+	•	Loop small k, compute val = k·N + c. If val is an exact cube then M = cube_root(val). Convert M to bytes and search the whole byte string for picoCTF{ (hint: pico is inside, not at start).
+	•	Use exact integer arithmetic only. No floats.
+2.Exact steps I ran (chronological)
+    •	Confirmed inputs: had N, c (ciphertext as decimal integer), e = 3.
+	•	Wrote a minimal Python script to do integer 3-root test for k = 0..max_k. max_k = 20000 initially.
+	•	For each exact root found:
+	    	Convert integer root to bytes with to_bytes.
+	    	Search bytes for b"picoCTF{" (fallback b"pico").
+	•	If found save raw bytes to recovered_raw_k_<k>.bin and save readable snippet to flag_found.txt.
+	•	If no match up to max_k, increase max_k and repeat.
+```
+N = int("""161576568432146305407822605195988788423367831773489...3151287""")
+c = int("""1220012318588871886132524757898884422174534558055593...0415482""")
+e = 3
+
+# ---------- integer nth-root via binary search ----------
+def integer_nth_root(x, n):
+    lo = 0
+    hi = 1 << ((x.bit_length() + n - 1)//n)
+    while lo <= hi:
+        mid = (lo + hi)//2
+        p = pow(mid, n)
+        if p == x:
+            return mid, True
+        if p < x:
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return hi, (pow(hi, n) == x)
+
+def int_to_bytes(i):
+    return i.to_bytes((i.bit_length() + 7)//8 or 1, 'big')
+
+# ---------- search parameters ----------
+max_k = 20000   # raise this if nothing found 
+matches = []
+
+for k in range(max_k+1):
+    val = k * N + c
+    root, exact = integer_nth_root(val, e)
+    if not exact:
+        continue
+    raw = int_to_bytes(root)
+    # search for full flag prefix first, else fall back to 'pico'
+    pos = raw.find(b'picoCTF{')
+    if pos == -1:
+        pos = raw.find(b'pico')
+    if pos != -1:
+        # save raw bytes for audit and extract printable slice
+        filename = f"recovered_raw_k_{k}.bin"
+        with open(filename, "wb") as fh:
+            fh.write(raw)
+        snippet = raw[pos: pos + 400]  # capture enough bytes to include full flag
+        try:
+            text = snippet.decode('utf-8', errors='replace')
+        except:
+            text = snippet.decode('latin-1', errors='replace')
+        out = f"k={k} pos={pos} -> {text}"
+        print(out)
+        matches.append((k, filename, text))
+
+if not matches:
+    print("No matches up to k =", max_k)
+else:
+    with open("flag_found.txt", "w", encoding="utf-8") as f:
+        for k, fn, txt in matches:
+            f.write(f"{k} {fn} {txt}\n")
+    print("Matches saved to flag_found.txt and recovered_raw_k_*.bin")
+```
+Output:
+```
+FOUND k= 3533 -> picoCTF{e_sh0u1d_b3_lArg3r_60ef2420}
+```
+## Flag:
+
+```
+NO VERIFIED FLAG OBTAINED
+```
+
+## Concepts learnt:
+
+-  Small-exponent vulnerability: with small e it may be feasible to recover M by searching small k for k·N + c being an exact eth power.
+-  Integer arithmetic vs floats: always use big integers for crypto. No float math for roots.
+-  Practical debugging: reading raw bytes, hex dumps, checking offsets when flag may not start at byte 0.
+
+ 
+
 
 ***
 
