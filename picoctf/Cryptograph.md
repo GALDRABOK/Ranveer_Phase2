@@ -171,7 +171,7 @@ What happens if you have a small exponent? There is a twist though, we padded th
 1.Thought process
 RSA: c ≡ M^e (mod N) implies integer k with M^e = k·N + c. <br>
 If e is very small (e = 3) then M^3 may be ≤ slightly larger than N. That makes k small.<br>
-Loop small k, compute val = k·N + c. If val is an exact cube then M = cube_root(val). Convert M to bytes and search the whole byte string for picoCTF{
+Loop small k, compute val = k·N + c. If val is an exact cube then M = cube_root(val). Convert M to bytes and search the whole byte string for picoCTF{ <br>
 Use exact integer arithmetic only. No floats.
 
 2.Exact steps I ran (chronological)<br>
