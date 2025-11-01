@@ -217,9 +217,8 @@ picoCTF{beep_boop_im_in_space}
 ```
 
 ## Concepts learnt:
+- Signal-Based Forensics (SSTV): Learned that audio files (.wav) can contain hidden image data encoded as Slow-Scan Television (SSTV) signals, a real-world technology used by NASA.
 
-- UART Protocol Decoding: Learned how to identify a common digital communication protocol, Async Serial (UART), from its visual waveform.
-- Using Protocol Analyzers: An understanding that the specific software, such as Logic 2, includes "analyzers" that could be run on raw signals to instantly decode into readable data formats like text or hex.
 
 ## Resources:
 

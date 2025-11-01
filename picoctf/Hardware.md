@@ -24,9 +24,9 @@ FCSC{b1dee4eeadf6c4e60aeb142b0b486344e64b12b40d1046de95c89ba5e23a9925}
 ```
 
 ## Concepts learnt:
+- UART Protocol Decoding: Learned how to identify a common digital communication protocol, Async Serial (UART), from its visual waveform.
+- Using Protocol Analyzers: An understanding that the specific software, such as Logic 2, includes "analyzers" that could be run on raw signals to instantly decode into readable data formats like text or hex.
 
-- Hardware Signal Analysis: Gained experience with what a "logic analyzer".
-- 
 
 
 ## Resources:
@@ -381,11 +381,9 @@ TFCCTF{Th1s_1s_som3_s1mpl3_4rdu1no_f1rmw4re}
 
 ## Concepts learnt:
 
-- Clue-driven Analysis: The name "Alchemist" was not just a name; it was a major clue for "transformation" (XOR).
+- Clue-driven Analysis: The name "Alchemist" was not just a name; it was a clue for "transformation" (XOR).
 - Reading Assembly (objdump): Learned to find the logic of a "bare-metal" program by looking for key instructions like ldi (load key), lpm (load data), and eor (XOR).
-- XOR Encoding: Understood that when strings fails (in all encodings), the data is probably encoded, and XOR is the most common method.
-- 
-
+- XOR Encoding: Understood that when strings fails (in all encodings), the data is probably encoded.
 ## Notes:
 
 - The avr-strings output failing was a clue, not a dead end. It confirmed the flag wasn't plain text.

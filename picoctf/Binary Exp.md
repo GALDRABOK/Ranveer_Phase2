@@ -76,7 +76,7 @@ picoCTF{ov3rfl0ws_ar3nt_that_bad_c5ca6248}
 
 -  Buffer Overflow: Understanding the fundamental concept that copying an input string of size n into a buffer of size m, where n > m, can overwrite adjacent memory.
 - Signal Handling(SIGSEGV): Learning that the default behavior of a program crashing (Segmentation Fault) can be modified by the programmer using the signal() function.
-- 
+
 
 ## Resources:
 
@@ -445,7 +445,7 @@ picoCTF{c0ntr0ll3d_clutt3r_1n_my_buff3r}
 
 ## Concepts learnt:
 
--In a 64-bit architecture (AMD64), local variables declared as long or pointers are typically 8 bytes wide (a Quadword or QWORD).
+- In a 64-bit architecture (AMD64), local variables declared as long or pointers are typically 8 bytes wide (a Quadword or QWORD).
 - When a program uses a standard input function like gets() or fgets(), it typically waits for a newline character (\n or0x0a) to terminate the input and start processing.
 
 
