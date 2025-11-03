@@ -58,7 +58,7 @@ x35 = 0
 ## Flag:
 
 ```
-nite{100100000110}
+nite{1001000110110}
 ```
 
 ## Concepts learnt:

@@ -298,7 +298,7 @@ b'                                                                              
 ## Flag:
 
 ```
-NO VERIFIED FLAG OBTAINED
+picoCTF{e_sh0u1d_b3_lArg3r_60ef2420}
 ```
 
 ## Concepts learnt:
