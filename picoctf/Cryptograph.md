@@ -9,87 +9,71 @@ After some intensive reconassainance they found out that the bank has an oracle 
 ```
 E(m1) * E(m2) mod N = E(m1*m2 mod N)
 ```
-so if we have ciphertext C = E(secret_password) <br>
-and we choose some small m (example “B” => ascii 66)<br>
-and ask oracle to encrypt m => we get C_m = E(m)<br>
-then we can multiply:
-```
-C_combined = C * C_m mod N
-```
-send C_combined to oracle decrypt
-oracle returns: D(C_combined) = m * secret_password mod N
+<br>
 
-call this returned integer “m_prime”.
+2.I choose to encrypt ASCII '2' which is hex 0x32 (50 in decimal).<br>
+The cipher returned is:
+```
+4707619883686427763240856106433203231481313994680729548861877810439954027216515481620077982254465432294427487895036699854948548980054737181231034760249505
+```
+Let this number be c2
+```
+c2=E(50)
+```
+<br>
 
-2.get secret_password <br>
-we know m (we chose it)<br>
-we got m_prime from oracle D output<br>
-so:
+3.multiply enc(password) * enc(50)<br>
+I multiplied the given password.enc integer with this returned ciphertext integer(let product be c3).I sent that product to the oracle D (decrypt).<nr>
+The oracle returned:
 ```
-secret_password = m_prime / m   (in Z_N)
+10997708943982761084006315359417483254965299487204584192712335192036789472336196626179282134890223733758401125471056267054908321079024432384222437910457194483711112753102678178170094968585207806212096960492328042941752878907452001886104974213833155189826877814877017136978779880432127774578986380439317174695
+decrypted ciphertext as hex (c ^ d mod n): a9573f66360  #let this be m3
+decrypted ciphertext: 
+söc`
 ```
-Z_N means arithmetic modulo N. All operations (add, multiply, divide) are taken with respect to N so results stay inside {0,1,...,N-1}. Division is done by multiplying with a modular inverse: to “divide” by m you compute m^{-1} mod N and multiply. Example: with N=10, 7+5 = 2 (because 12 mod 10 = 2).<br>
-if division not clean => RSA modulus was involved.<br>
-we solved by recovering modulus N using small chosen plaintexts.<br>
-
-3.after N known,br.
-we compute modular inverse:
+converting m3 to decimal
 ```
-secret_password = m_prime * inverse(m,N) mod N
+a9573f66360(hex) = 11637011932000(dec)
 ```
 
-4.Recover N (if m' not divisible by m)<br>
-Collect a few encryptions for known small plaintexts (I used ASCII "1","2","3" → m = 49,50,51). For each pair (pt, ct) compute ct - pt^e. The GCD of those differences yields N.
+4.Now,
 ```
-from math import gcd
-vals = [CT1 - pow(49,65537), CT2 - pow(50,65537), CT3 - pow(51,65537)]
-N = gcd(gcd(vals[0], vals[1]), vals[2])
-print(N)
+c3=E(m1*m2)
 ```
-5.Recover password integer (modular division),br
-If oracle returned m_prime for the combined ciphertext, compute:
+If we decrypt both sides we get
 ```
-password_int = (m_prime * inv(m, N)) % N
+D(c3)=D(E(m1*m2))
 ```
+and decryption of c3 gets us m3
 ```
-password_int = (m_prime * pow(m, -1, N)) % N
-print(password_int)
+m3=m1*m2
 ```
-
-6.I took that m’ and actually did the modular inverse math
-
-I knew my chosen plaintext m = 66
-I had N (I got it by gcd trick)
-so I literally ran:
+we know m2 and m3,from the relation above we can get m1
 ```
-password = (m_prime * inverse(m,N)) mod N
-```
-this gives the real password integer.final password integer I got:
-```
-2058712530488426322051380681204458022625059979122319215186294973614404488321879828825738413877431210331240518852944303736889895093619302704670652486247537
-```
-8.convert password integer to raw bytes
-```
-pw_dec = <big integer>
-pw_bytes = pw_dec.to_bytes((pw_dec.bit_length()+7)//8,"big")
-write to pw.bin
+m1=m3/m2
+m1=11637011932000/50
+m1=232740238640
 ```
 
-9.feed pw.bin as the password file into openssl
+5.Converting m1 to hex then to ASCII we get
 ```
-openssl enc -aes-256-cbc -d -in secret.enc -pass file:pw.bin -out flag.txt
+60f50
 ```
-10.final AES decrypt attempt failed<br>
-I then tried to actually use this recovered “password integer” as the key to decrypt secret.enc with OpenSSL. I converted it to bytes, I tried pass:file, md5, pbkdf2, direct key+iv derivation etc. Every attempt ended in
+This is out password.
+
+6.Final decrypt,we use the openssl locally using the command
 ```
-bad decrypt
+openssl enc -aes-256-cbc -d -in secret.enc -pass pass:60f50
 ```
-So basically: the RSA part is solved, but the AES part still did NOT decrypt for me.
+and we get the output
+```
+ *** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+picoCTF{su((3ss_(r@ck1ng_r3@_60f50766}%  
+```
 ## Flag:
 
-```
-No verifiable flag found
-```
+picoCTF{su((3ss_(r@ck1ng_r3@_60f50766}
 
 ## Concepts learnt:
 
@@ -101,8 +85,8 @@ No verifiable flag found
 
 - Understanding Cryptography — Christof Paar & Jan Pelzl.(https://cacr.uwaterloo.ca/hac/)
 - GeeksForGeeks RSA and Modular Arithmetic articles (https://www.geeksforgeeks.org/rsa-algorithm-cryptography/)(https://www.geeksforgeeks.org/modular-multiplicative-inverse/)
-- GeeksForGeeks – GCD and Extended Euclidean Algorithm(https://www.geeksforgeeks.org/euclidean-algorithms-basic-and-extended/)
-
+- Decimal to Hex(https://www.rapidtables.com/convert/number/decimal-to-hex.html?x=232740238640)
+- Hex to ASCII(https://www.rapidtables.com/convert/number/hex-to-ascii.html)
 
 ***
 
@@ -284,72 +268,33 @@ Use exact integer arithmetic only. No floats.
 2.Exact steps I ran (chronological)<br>
 Confirmed inputs: had N, c (ciphertext as decimal integer), e = 3.<br>
 Wrote a minimal Python script to do integer 3-root test for k = 0,max_k = 20000 initially.<br>
-For each exact root found:Convert integer root to bytes with to_bytes.Search bytes for b"picoCTF{" (fallback b"pico").<br>
-If found save raw bytes to recovered_raw_k_<k>.bin and save readable snippet to flag_found.txt.<br>
-If no match up to max_k, increase max_k and repeat.
+For exact root:Convert integer root to hex then to bytes .<br>
 ```
-N = int("""161576568432146305407822605195988788423367831773489...3151287""")
-c = int("""1220012318588871886132524757898884422174534558055593...0415482""")
+from sympy import integer_nthroot
+N = 1615765684321463054078226051959887884233678317734892901740763321135213636796075462401950274602405095138589898087428337758445013281488966866073355710771864671726991918706558071231266976427184673800225254531695928541272546385146495736420261815693810544589811104967829354461491178200126099661909654163542661541699404839644035177445092988952614918424317082380174383819025585076206641993479326576180793544321194357018916215113009742654408597083724508169216182008449693917227497813165444372201517541788989925461711067825681947947471001390843774746442699739386923285801022685451221261010798837646928092277556198145662924691803032880040492762442561497760689933601781401617086600593482127465655390841361154025890679757514060456103104199255917164678161972735858939464790960448345988941481499050248673128656508055285037090026439683847266536283160142071643015434813473463469733112182328678706702116054036618277506997666534567846763938692335069955755244438415377933440029498378955355877502743215305768814857864433151287
+
+c = 1220012318588871886132524757898884422174534558055593713309088304910273991073554732659977133980685370899257850121970812405700793710546674062154237544840177616746805668666317481140872605653768484867292138139949076102907399831998827567645230986345455915692863094364797526497302082734955903755050638155202890599808146919581675891411119628108546342758721287307471723093546788074479139848242227243523617899178070097350912870635303707113283010669418774091018728233471491573736725568575532635111164176010070788796616348740261987121152288917179932230769893513971774137615028741237163693178359120276497700812698199245070488892892209716639870702721110338285426338729911942926177029934906215716407021792856449586278849142522957603215285531263079546937443583905937777298337318454706096366106704204777777913076793265584075700215822263709126228246232640662350759018119501368721990988895700497330256765579153834824063344973587990533626156498797388821484630786016515988383280196865544019939739447062641481267899176504155482
+
 e = 3
 
-# ---------- integer nth-root via binary search ----------
-def integer_nth_root(x, n):
-    lo = 0
-    hi = 1 << ((x.bit_length() + n - 1)//n)
-    while lo <= hi:
-        mid = (lo + hi)//2
-        p = pow(mid, n)
-        if p == x:
-            return mid, True
-        if p < x:
-            lo = mid + 1
-        else:
-            hi = mid - 1
-    return hi, (pow(hi, n) == x)
+for i in range(1,50000):
+    val = i*N + c
+    root, perfect = integer_nthroot(val, 3)
+    if perfect:
+        print(root)
+        print("root=",root)
+        print("k=",i)
+        b = bytes.fromhex(hex(root)[2:])
+        print(b)
 
-def int_to_bytes(i):
-    return i.to_bytes((i.bit_length() + 7)//8 or 1, 'big')
 
-# ---------- search parameters ----------
-max_k = 20000   # raise this if nothing found 
-matches = []
-
-for k in range(max_k+1):
-    val = k * N + c
-    root, exact = integer_nth_root(val, e)
-    if not exact:
-        continue
-    raw = int_to_bytes(root)
-    # search for full flag prefix first, else fall back to 'pico'
-    pos = raw.find(b'picoCTF{')
-    if pos == -1:
-        pos = raw.find(b'pico')
-    if pos != -1:
-        # save raw bytes for audit and extract printable slice
-        filename = f"recovered_raw_k_{k}.bin"
-        with open(filename, "wb") as fh:
-            fh.write(raw)
-        snippet = raw[pos: pos + 400]  # capture enough bytes to include full flag
-        try:
-            text = snippet.decode('utf-8', errors='replace')
-        except:
-            text = snippet.decode('latin-1', errors='replace')
-        out = f"k={k} pos={pos} -> {text}"
-        print(out)
-        matches.append((k, filename, text))
-
-if not matches:
-    print("No matches up to k =", max_k)
-else:
-    with open("flag_found.txt", "w", encoding="utf-8") as f:
-        for k, fn, txt in matches:
-            f.write(f"{k} {fn} {txt}\n")
-    print("Matches saved to flag_found.txt and recovered_raw_k_*.bin")
 ```
 Output:
 ```
-FOUND k= 3533 -> picoCTF{e_sh0u1d_b3_lArg3r_60ef2420}
+1787330808968142828287809319332701517353332911736848279839502759158602467824780424488141955644417387373185756944952906538004355347478978500948630620749868180414755933760446136287315896825929319145984883756667607031853695069891380871892213007874933611243319812691520078269033745367443951846845107464675742664639073699907476681022428557437
+b'                                                                                                        picoCTF{e_sh0u1d_b3_lArg3r_60ef2420}'
 ```
+
 ## Flag:
 
 ```
