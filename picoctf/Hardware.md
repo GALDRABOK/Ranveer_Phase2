@@ -60,11 +60,15 @@ x35 = 0
 ```
 nite{1001000110110}
 ```
+## Notes:
+
+- Accidentally took a 'xor' gate as 'or' gate and got an incorrect answer.
 
 ## Concepts learnt:
 
 - bit indexing and LSB
 - inverted inputs via bubble
+
 
 ## Resources:
 
